@@ -1,0 +1,81 @@
+
+=== GRADEBOOK ===
+1. Full Report
+2. Grade Distribution
+3. Assignment Averages
+4. Roster
+5. Class Average
+0. Quit
+Choice: STUDEN    A0    A1    A2    A3    A4     AVG GRADE
+------------------------------------------------------------
+Ada Lovelace    95.0  88.5  92.0  78.0 100.0   90.70 	A  *
+Grace Hopper    72.5  80.0  68.0  91.0  85.5   79.40 	C  !
+Alan Turing     55.0  62.5  48.0  70.0  59.0   58.90 	F  !
+Katherine John 100.0  98.0  95.5  99.0  97.0   97.90 	A  *
+Linus Torvalds  83.0  79.5  88.0  84.0  91.5   85.20 	B
+Bill Gates      45.0  52.0  61.0  38.5  55.0   50.30 	F  !
+	* perfect score	! at risk
+
+=== GRADEBOOK ===
+1. Full Report
+2. Grade Distribution
+3. Assignment Averages
+4. Roster
+5. Class Average
+0. Quit
+Choice: 
+GRADE DISTRIBUTION
+A | ##		(2)
+B | #		(1)
+C | #		(1)
+D | 		(0)
+F | ##		(2)
+
+=== GRADEBOOK ===
+1. Full Report
+2. Grade Distribution
+3. Assignment Averages
+4. Roster
+5. Class Average
+0. Quit
+Choice: 
+ASSIGNMENT AVERAGES
+  A1:  75.08
+  A2:  76.75
+  A3:  75.42
+  A4:  76.75
+  A5:  81.33
+
+=== GRADEBOOK ===
+1. Full Report
+2. Grade Distribution
+3. Assignment Averages
+4. Roster
+5. Class Average
+0. Quit
+Choice: 
+ROSTER
+A. L.	Ada Lovelace
+G. H.	Grace Hopper
+A. T.	Alan Turing
+K. J.	Katherine Johnson
+L. T.	Linus Torvalds
+B. G.	Bill Gates
+
+=== GRADEBOOK ===
+1. Full Report
+2. Grade Distribution
+3. Assignment Averages
+4. Roster
+5. Class Average
+0. Quit
+Choice: Class Average:  77.07
+
+=== GRADEBOOK ===
+1. Full Report
+2. Grade Distribution
+3. Assignment Averages
+4. Roster
+5. Class Average
+0. Quit
+Choice: 
