@@ -1,38 +1,28 @@
 // app/main.cpp
 
-#include <string>
-#include <limits>
-#include <iostream>
 #include <iomanip>
+#include <iostream>
+#include <limits>
 
-#include "printing.h"
 #include "grading.h"
+#include "printing.h"
+#include "student.h"
 
 int main(int argc, char** argv) {
     int input{-1};
 
-    const std::string names[]{
-        "Ada Lovelace",
-        "Grace Hopper",
-        "Alan Turing",
-        "Katherine Johnson",
-        "Linus Torvalds",
-        "Bill Gates"
+    Student students[]{
+        {"Ada Lovelace", {95.0, 88.5, 92.0, 78.0, 100.0}},
+        {"Grace Hopper", {72.5, 80.0, 68.0, 91.0, 85.5}},
+        {"Alan Turing", {55.0, 62.5, 48.0, 70.0, 59.0}},
+        {"Katherine Johnson", {100.0, 98.0, 95.5, 99.0, 97.0}},
+        {"Linus Torvalds", {83.0, 79.5, 88.0, 84.0, 91.5}},
+        {"Bill Gates", {45.0, 52.0, 61.0, 38.5, 55.0}}
     };
 
-    const int num_students{static_cast<int>(std::size(names))};
-    const int num_assignments{5};
-    
-    double **scores = new double*[num_students];
+    const int num_students{static_cast<int>(std::size(students))};
 
-    scores[0] = new double[num_assignments]{95.0, 88.5, 92.0, 78.0, 100.0};
-    scores[1] = new double[num_assignments]{72.5, 80.0, 68.0, 91.0, 85.5};
-    scores[2] = new double[num_assignments]{55.0, 62.5, 48.0, 70.0, 59.0};
-    scores[3] = new double[num_assignments]{100.0, 98.0, 95.5, 99.0, 97.0};
-    scores[4] = new double[num_assignments]{83.0, 79.5, 88.0, 84.0, 91.5};
-    scores[5] = new double[num_assignments]{45.0, 52.0, 61.0, 38.5, 55.0};
-
-    while(input != 0) {
+    while (input != 0) {
         std::cout << "\n=== GRADEBOOK ===\n"
                   << "1. Full Report\n"
                   << "2. Grade Distribution\n"
@@ -41,32 +31,33 @@ int main(int argc, char** argv) {
                   << "5. Class Average\n"
                   << "0. Quit\n"
                   << "Choice: ";
-        if(std::cin >> input) {
-            switch(input) {
+
+        if (std::cin >> input) {
+            switch (input) {
                 case 1: {
-                            print_header(num_students, num_assignments);
+                    print_header(num_students);
 
-                            for(auto row{0}; row < num_students; row++) {
-                                print_student_row(names[row], scores, row, num_students, num_assignments);
-                            }
+                    for (auto row{0}; row < num_students; row++) {
+                        print_student_row(students, row);
+                    }
 
-                            std::cout << "\t* perfect score\t! at risk\n";
-                            break;
-                        }
-                        case 2: {
-                    print_histogram(scores, num_students, num_assignments);
+                    std::cout << "\t* perfect score\t! at risk\n";
+                    break;
+                }
+                case 2: {
+                    print_histogram(students, num_students);
                     break;
                 }
                 case 3: {
-                    print_assignment_summary(scores, num_students, num_assignments);
+                    print_assignment_summary(students, num_students);
                     break;
                 }
                 case 4: {
-                    print_roster(names, num_students);
+                    print_roster(students, num_students);
                     break;
                 }
                 case 5: {
-                    double avg{class_average(scores, num_students, num_assignments)};
+                    double avg{class_average(students, num_students)};
 
                     std::cout << "Class Average: " << std::setw(6)
                               << std::setprecision(2) << std::fixed << avg
@@ -74,16 +65,11 @@ int main(int argc, char** argv) {
                     break;
                 }
                 case 0: {
-                            for(auto student{0}; student < num_students; student++) {
-                                delete[] scores[student];
-                            }
-
-                            delete[] scores;
-                            return 0;
-                        }
+                    return 0;
+                }
                 default: {
-                             std::cout << "Invalid choice, try again\n";
-                         }
+                    std::cout << "Invalid choice, try again\n";
+                }
             }
         } else {
             // Clear a failed read and discard the broken input
@@ -93,13 +79,6 @@ int main(int argc, char** argv) {
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
-
-//    for(auto student{0}; student < num_students; student++) {
-//        for(auto assignment{0}; assignment < num_assignments; assignment++) {
-//            std::cout << scores[student][assignment] << " ";
-//        }
-//        std::cout << std::endl;
-//    }
 
     return 0;
 }

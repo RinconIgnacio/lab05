@@ -2,89 +2,84 @@
 #ifndef GRADING_H
 #define GRADING_H
 
+#include "student.h"
+
 /**
  * @brief Calculates one student's mean score across all assignments.
  *
- * @pre student_index is in the range [0, num_students).
- * @post The scores grid is not modified.
+ * @post The student record is not modified.
  *
- * @param[in] scores          The grade grid.
- * @param[in] student_index   Row of the student to average.
- * @param[in] num_students    Number of students in the grid
- * @param[in] num_assignments Number of assignments in the grid
+ * @param[in] student The student to average.
  * @return The mean of that student's assignment scores.
  */
-[[nodiscard]] double student_average(const double* const* scores,
-                                    const int student_index,
-                                    const int num_assignments);
+[[nodiscard]] double student_average(const Student& student);
 
 /**
  * @brief Calculates the mean score on one assignment across all students.
  *
- * @pre assignment_index is in the range [0, num_assignments).
- * @post The scores grid is not modified.
+ * @pre assignment_index is in the range [0, assignment_count).
+ * @post The student records are not modified.
  *
- * @param[in] scores           The grade grid.
- * @param[in] assignment_index  Column of the assignment to average.
+ * @param[in] students          The collection of student records.
+ * @param[in] assignment_index  Assignment to average.
+ * @param[in] num_students      Number of students in the collection.
  * @return The mean score earned on that assignment.
  */
-[[nodiscard]] double assignment_average(const double* const* scores,
-                                       int assignment_index, const int num_students, const int num_assignments);
+[[nodiscard]] double assignment_average(const Student students[],
+                                        int assignment_index,
+                                        int num_students);
 
 /**
- * @brief Calculates the mean of every score in the grid.
+ * @brief Calculates the mean of every score in the collection.
  *
- * @post The scores grid is not modified.
+ * @post The student records are not modified.
  *
- * @param[in] scores  The grade grid.
- * @return The mean of all num_students * num_assignments scores.
+ * @param[in] students      The collection of student records.
+ * @param[in] num_students  Number of students in the collection.
+ * @return The mean of all student assignment scores.
  */
-[[nodiscard]] double class_average(const double* const* scores, const int num_students, const int num_assignments);
+[[nodiscard]] double class_average(const Student students[],
+                                   int num_students);
 
 /**
  * @brief Finds one student's lowest and highest assignment scores.
  *
- * @pre student_index is in the range [0, num_students).
- * @post lowest holds that student's minimum score.
- * @post highest holds that student's maximum score.
- * @post The scores grid is not modified.
+ * @post lowest holds the student's minimum score.
+ * @post highest holds the student's maximum score.
+ * @post The student record is not modified.
  *
- * @param[in]  scores           The grade grid.
- * @param[in]  student_index    Row of the student to examine.
- * @param[in]  num_students     Number of students in the scores grid
- * @param[in]  num_assignments  Number of assignments in the scores grid
- * @param[out] lowest           Receives the minimum score.
- * @param[out] highest          Receives the maximum score.
+ * @param[in]  student The student to examine.
+ * @param[out] lowest  Receives the minimum score.
+ * @param[out] highest Receives the maximum score.
  */
-void find_extremes(const double* const* scores, int student_index, const int num_students, const int num_assignments, double& lowest, double& highest);
+void find_extremes(const Student& student,
+                   double& lowest,
+                   double& highest);
 
 /**
  * @brief Counts how many students earned a given letter grade.
  *
  * @pre target is one of 'A', 'B', 'C', 'D', or 'F'.
- * @post The scores grid is not modified.
+ * @post The student records are not modified.
  *
- * @param[in] scores  The grade grid.
- * @param[in] target  The letter grade to count.
- * @param[in] num_students     Number of students in the scores grid
- * @param[in] num_assignments  Number of assignments in the scores grid
+ * @param[in] students      The collection of student records.
+ * @param[in] target        The letter grade to count.
+ * @param[in] num_students  Number of students in the collection.
  * @return The number of students whose average earns that letter.
  */
-[[nodiscard]] int count_grade(const double* const* scores, char target, const int num_students, const int num_assignments);
+[[nodiscard]] int count_grade(const Student students[],
+                              char target,
+                              int num_students);
 
 /**
  * @brief Reports whether a student earned a perfect score on any assignment.
  *
- * @pre student_index is in the range [0, num_students).
- * @post The scores grid is not modified.
+ * @post The student record is not modified.
  *
- * @param[in] scores        The grade grid.
- * @param[in] student_index  Row of the student to examine.
- * @param[in] num_students     Number of students in the scores grid
- * @param[in] num_assignments  Number of assignments in the scores grid
- * @return true if any of that student's scores is 100 or above.
+ * @param[in] student The student to examine.
+ * @return true if any of the student's scores is 100 or above.
  */
-[[nodiscard]] bool has_perfect_score(const double* const* scores, int student_index, const int num_students, const int num_assignments);
+[[nodiscard]] bool has_perfect_score(const Student& student);
 
 /**
  * @brief Reports whether a student is academically at risk.
@@ -92,15 +87,11 @@ void find_extremes(const double* const* scores, int student_index, const int num
  * A student is at risk when their average is below 70, or when any
  * single assignment score is below 50.
  *
- * @pre student_index is in the range [0, num_students).
- * @post The scores grid is not modified.
+ * @post The student record is not modified.
  *
- * @param[in] scores        The grade grid.
- * @param[in] student_index  Row of the student to examine.
- * @param[in] num_students     Number of students in the scores grid
- * @param[in] num_assignments  Number of assignments in the scores grid
+ * @param[in] student The student to examine.
  * @return true if either at-risk condition holds.
  */
-[[nodiscard]] bool is_at_risk(const double* const* scores, int student_index, const int num_students, const int num_assignments);
+[[nodiscard]] bool is_at_risk(const Student& student);
 
 #endif

@@ -3,15 +3,14 @@
 
 #include <iomanip>
 #include <iostream>
-#include <string>
 
 #include "grading.h"
 #include "utilities.h"
 
-void print_header(const int num_students, const int num_assignments) {
+void print_header(int num_students) {
     std::cout << pad_name("STUDENT", num_students);
 
-    for (auto i{0}; i < num_assignments; i++) {
+    for (auto i{0}; i < assignment_count; i++) {
         std::cout << std::setw(5) << "A" << i;
     }
 
@@ -24,37 +23,37 @@ void print_header(const int num_students, const int num_assignments) {
     std::cout << '\n';
 }
 
-void print_student_row(const std::string& name, const double* const* scores, int student_index, const int num_students, const int num_assignments) {
-    std::cout << pad_name(name, name_width);
+void print_student_row(const Student students[], int student_index) {
+    std::cout << pad_name(students[student_index].name, name_width);
 
-    for (auto i{0}; i < num_assignments; i++) {
+    for (auto i{0}; i < assignment_count; i++) {
         std::cout << std::setw(6) << std::setprecision(1) << std::fixed
-                  << scores[student_index][i];
+                  << students[student_index].scores[i];
     }
 
-    double avg{student_average(scores, student_index, num_assignments)};
+    double avg{student_average(students[student_index])};
 
     std::cout << std::setw(8) << std::setprecision(2) << std::fixed << avg
               << " \t" << letter_grade(avg);
 
-    if (has_perfect_score(scores, student_index, num_students, num_assignments)) {
+    if (has_perfect_score(students[student_index])) {
         std::cout << "  *";
     }
 
-    if (is_at_risk(scores, student_index, num_students, num_assignments)) {
+    if (is_at_risk(students[student_index])) {
         std::cout << "  !";
     }
 
     std::cout << '\n';
 }
 
-void print_histogram(const double* const* scores, const int num_students, const int num_assignments) {
+void print_histogram(const Student students[], int num_students) {
     const char letters[]{'A', 'B', 'C', 'D', 'F'};
 
     std::cout << "\nGRADE DISTRIBUTION\n";
 
     for (auto letter : letters) {
-        auto count{count_grade(scores, letter, num_students, num_assignments)};
+        auto count{count_grade(students, letter, num_students)};
 
         std::cout << letter << " | ";
 
@@ -66,11 +65,11 @@ void print_histogram(const double* const* scores, const int num_students, const 
     }
 }
 
-void print_assignment_summary(const double* const* scores, const int num_students, const int num_assignments) {
+void print_assignment_summary(const Student students[], int num_students) {
     std::cout << "\nASSIGNMENT AVERAGES\n";
 
-    for (auto i{0}; i < num_assignments; i++) {
-        auto avg{assignment_average(scores, i, num_students, num_assignments)};
+    for (auto i{0}; i < assignment_count; i++) {
+        auto avg{assignment_average(students, i, num_students)};
 
         std::cout << "  A" << i + 1 << ": " << std::setw(6)
                   << std::setprecision(2) << std::fixed << avg;
@@ -83,12 +82,11 @@ void print_assignment_summary(const double* const* scores, const int num_student
     }
 }
 
-void print_roster(const std::string* names, int name_count) {
+void print_roster(const Student students[], int num_students) {
     std::cout << "\nROSTER\n";
 
-    // names is a pointer to the first element; it carries no size of its
-    // own, so name_count is how far we are permitted to walk
-    for (auto i{0}; i < name_count; i++) {
-        std::cout << initials_of(names[i]) << '\t' << names[i] << '\n';
+    for (auto i{0}; i < num_students; i++) {
+        std::cout << initials_of(students[i].name) << '\t'
+                  << students[i].name << '\n';
     }
 }
